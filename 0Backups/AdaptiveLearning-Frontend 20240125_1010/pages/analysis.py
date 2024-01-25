@@ -4,7 +4,6 @@ import plotly.express as px
 import dash_mantine_components as dmc
 from dash import Input, Output, State, html, dcc, dash_table, ctx
 from dash_iconify import DashIconify
-import dash_html_components as html
 
 from dash import callback_context
 from app import app

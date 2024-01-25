@@ -12,7 +12,7 @@ layout = html.Div(
         html.Header(
             children=[
                 html.H1("Adaptive Learning", style={'margin-bottom': '10px'}),
-                html.P("Find your best way to learn",
+                html.P("Welcome to our exciting project! Let us recommend you how to learn in the best way!",
                        style={'margin-bottom': '20px'}),
                 html.Img(src='..\\assets\\animation.gif', alt="Project Photo",
                          style={'width': '100%', 'margin-bottom': '20px'})

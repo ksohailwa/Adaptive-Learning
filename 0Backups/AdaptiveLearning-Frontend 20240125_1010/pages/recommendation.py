@@ -28,10 +28,10 @@ layout = html.Div(
                 dmc.SimpleGrid(
                     cols = 2,
                     children = [
-                        dmc.Title('Collaborative-Model Based Filtering Recommendation', order = 4, style = {'text-align':'center'}),
+                        dmc.Title('Collaborative-Filtering Recommendation', order = 4, style = {'text-align':'center'}),
                         dmc.Title('Accurancy', order = 4, style = {'text-align':'center'}),
                         html.Img(
-                            src = app.get_asset_url('ml images/Coll.png'),
+                            src = app.get_asset_url('ml images/CB-Info.jpg'),
                             style = {'width':'25vw','justify-self':'center'}, 
                         ),
                         html.Img(
@@ -82,8 +82,8 @@ layout = html.Div(
                         ),
                         dmc.Button(id = 'submit-recomm', children = 'Submit'),
 
-                        dmc.Group(spacing = 'sm', children = [dmc.Title('Accuracy of the Recommendation', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
-                        dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accuracy!'),
+                        dmc.Group(spacing = 'sm', children = [dmc.Title('Accurancy of your recommendetion', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
+                        dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accurancy!'),
                         dmc.Progress(id = 'accurancy', value=83, class_name = 'progressbar', color = 'green', label = '83%', size = 'xl'),
                         
                         

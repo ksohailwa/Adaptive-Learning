@@ -82,8 +82,8 @@ layout = html.Div(
                         ),
                         dmc.Button(id = 'submit-recomm', children = 'Submit'),
 
-                        dmc.Group(spacing = 'sm', children = [dmc.Title('Accuracy of the Recommendation', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
-                        dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accuracy!'),
+                        dmc.Group(spacing = 'sm', children = [dmc.Title('accuracy of your recommendation', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
+                        dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accurancy!'),
                         dmc.Progress(id = 'accurancy', value=83, class_name = 'progressbar', color = 'green', label = '83%', size = 'xl'),
                         
                         
