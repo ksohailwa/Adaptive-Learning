@@ -31,7 +31,7 @@ from app import app
 # conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
 # engine_azure = create_engine(conn_str, echo=True)
 
-params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin@adaptive-learning-server.database.windows.net;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
 engine_azure = create_engine(conn_str,echo=True)
 
