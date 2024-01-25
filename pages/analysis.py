@@ -10,38 +10,37 @@ from dash_iconify import DashIconify
 from dash import callback_context
 from app import app
 
-db_server_name = 'adaptive-learning-server.database.windows.net.1433'
-database_name = 'adaptive_learning_db'
-username = 'superadmin'
-password = 'Poorpassword@2024'
+# db_server_name = 'adaptive-learning-server.database.windows.net.1433'
+# database_name = 'adaptive_learning_db'
+# username = 'superadmin'
+# password = 'Poorpassword@2024'
 
-params = urllib.parse.quote_plus(
-    'Driver={ODBC Driver 17 for SQL Server};'
-    'Server=tcp:{};Database={};'
-    'Uid={};Pwd={};Encrypt=yes;'
-    'TrustServerCertificate=no;'
-    'Connection Timeout=30;'.format(
-        db_server_name,
-        database_name,
-        '{}@{}'.format(username, db_server_name),
-        password
-    )
-)
+# params = urllib.parse.quote_plus(
+#     'Driver={ODBC Driver 17 for SQL Server};'
+#     'Server=tcp:{};Database={};'
+#     'Uid={};Pwd={};Encrypt=yes;'
+#     'TrustServerCertificate=no;'
+#     'Connection Timeout=30;'.format(
+#         db_server_name,
+#         database_name,
+#         '{}@{}'.format(username, db_server_name),
+#         password
+#     )
+# )
 
-conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
-engine_azure = create_engine(conn_str, echo=True)
-
-# params = urllib.parse.quote_plus \ # urllib.parse.quote_plus for python 3
-# (r'Driver={ODBC Driver 17 for SQL Server};Server=tcp:yourDBServerName.database.windows.net,1433;Database=dbname;Uid=username@dbserverName;Pwd=xxx;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 # conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
-# engine_azure = create_engine(conn_str,echo=True)
+# engine_azure = create_engine(conn_str, echo=True)
+
+params = urllib.parse.quote_plus(r'Driver={ODBC Driver 17 for SQL Server};Server=tcp:yourDBServerName.database.windows.net,1433;Database=dbname;Uid=username@dbserverName;Pwd=xxx;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
+engine_azure = create_engine(conn_str,echo=True)
 
 #db_engine = create_engine('Driver=ODBC Driver 18 for SQL Server;Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 try:
 
     # Establish a connection
-    connection = db_engine.connect()
+    connection = engine_azure.connect()
 
     # Perform a simple test query
     result = connection.execute("SELECT 1")
