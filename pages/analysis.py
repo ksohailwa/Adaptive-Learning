@@ -2,14 +2,35 @@
 import pandas as pd
 import plotly.express as px
 import dash_mantine_components as dmc
+from sqlalchemy import create_engine
 from dash import Input, Output, State, html, dcc, dash_table, ctx
 from dash_iconify import DashIconify
 
 from dash import callback_context
 from app import app
 
+db_engine = create_engine('mssql+pyodbc://superadmin:Poorpassword@2024@adaptive-learning-server.database.windows.net:1433/adaptive_learning_db?driver=ODBC+Driver+18+for+SQL+Server')
+
+try:
+
+    # Establish a connection
+    connection = db_engine.connect()
+
+    # Perform a simple test query
+    result = connection.execute("SELECT 1")
+
+    # Fetch the result
+    row = result.fetchone()
+    print("Connection successful. Result:", row[0])
+
+    # Close the connection
+    connection.close()
+
+except Exception as e:
+    print("Error:", str(e))
+    
 ############################
-df2 = pd.read_csv(r'C:\Users\Mary\Desktop\AdaptiveLearning-Frontend\data\Survey_data.csv')
+df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 layout = html.Div(
     style = {'overflow-x':'hidden'},
     children=[
@@ -29,7 +50,7 @@ layout = html.Div(
             ]
         ),
         dmc.Group(
-            direction = 'column',
+            #direction = 'column',
             grow = True,
             position = 'center',
             spacing = 'sm',
@@ -63,7 +84,6 @@ layout = html.Div(
                                             value = 'gender'
                                         ),
                                         dmc.Group(
-                                            direction = 'row',
                                             position = 'center',
                                             children = [
 
@@ -102,7 +122,7 @@ layout = html.Div(
                                     value = 'gender'
                                 ),
                                 dmc.Group(
-                                    direction = 'row',
+                                    #direction = 'row',
                                     position = 'center',
                                     children = [
 
@@ -123,7 +143,7 @@ layout = html.Div(
 @app.callback(Output('pie_graph', 'figure'),
                 Input('column_name_num','value'))
 def update_graph(value):
-    df2 = pd.read_csv(r'C:\Users\Mary\Desktop\AdaptiveLearning-Frontend\data\Survey_data.csv')
+    df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
     df2 = df2[value].value_counts().reset_index()
     df2.columns = ['value', 'count']
     unique_values = df2['value'].unique()

@@ -12,8 +12,8 @@ def create_dropdown(id,label, options_list):
         value = options_list[0]
     )
 
-df = pd.read_csv(r'C:\Users\Mary\Desktop\AdaptiveLearning-Frontend\data\Survey_data.csv')
-custs = pd.read_csv(r'C:\Users\Mary\Desktop\AdaptiveLearning-Frontend\data\Survey_data.csv')
+df = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
+custs = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 
 layout = html.Div(
     children=[
