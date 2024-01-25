@@ -9,7 +9,7 @@ from dash_iconify import DashIconify
 from dash import callback_context
 from app import app
 
-db_engine = create_engine('mssql+pyodbc://superadmin:Poorpassword@2024@adaptive-learning-server.database.windows.net:1433/adaptive_learning_db?driver=ODBC+Driver+18+for+SQL+Server')
+db_engine = create_engine('Driver=ODBC Driver 18 for SQL Server;Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 
 try:
 
@@ -28,7 +28,7 @@ try:
 
 except Exception as e:
     print("Error:", str(e))
-    
+
 ############################
 df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 layout = html.Div(
