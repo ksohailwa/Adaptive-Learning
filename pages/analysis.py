@@ -4,6 +4,7 @@ import urllib.parse
 import plotly.express as px
 import dash_mantine_components as dmc
 from sqlalchemy import create_engine
+from sqlalchemy import text
 from dash import Input, Output, State, html, dcc, dash_table, ctx
 from dash_iconify import DashIconify
 
@@ -42,13 +43,20 @@ try:
     # Establish a connection
     connection = engine_azure.connect()
 
-    # Perform a simple test query
-    result = connection.execute("SELECT 1")
+    print("!!!! Finally Connection successful !!!!")
 
-    # Fetch the result
-    row = result.fetchone()
-    print("Connection successful. Result:", row[0])
+    # Perform a query to fetch table names
+    table_query = text(
+        "SELECT table_name "
+        "FROM information_schema.tables "
+        "WHERE table_type = 'BASE TABLE';"
+    )
+    result = connection.execute(table_query)
 
+    # Fetch the results
+    table_names = [row[0] for row in result.fetchall()]
+    print("Displying all tables we have currently in the database:", table_names)
+    
     # Close the connection
     connection.close()
 
