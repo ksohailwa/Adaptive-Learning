@@ -1,19 +1,53 @@
 import pandas as pd
 import dash_mantine_components as dmc
+import dash_core_components as dcc
 from dash import Input, Output, State, html, ctx
 from dash_iconify import DashIconify
 from app import app
+import urllib.parse
+from sqlalchemy import create_engine
+from sqlalchemy import text
 
-def create_dropdown(id,label, options_list):
-    return dmc.Select(
-        id = id,
-        label = label,
-        data = [{'value':i, 'label': i} for i in options_list],
-        value = options_list[0]
+# def create_dropdown(id,label, options_list):
+#     return dmc.Select(
+#         id = id,
+#         label = label,
+#         data = [{'value':i, 'label': i} for i in options_list],
+#         value = options_list[0]
+#     )
+
+def create_dropdown(id, label, options_list):
+    # Filter out null values from the options list
+    filtered_options = [{'value': i, 'label': i} for i in options_list if i is not None]
+    
+    return dcc.Dropdown(
+        id=id,
+        options=filtered_options,
+        value=filtered_options[0]['value'] if filtered_options else None
     )
 
-df = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
-custs = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
+# Load dataset from Azure SQL DB
+params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
+engine_azure = create_engine(conn_str,echo=True)
+
+connection = engine_azure.connect()
+print("Connection successful !!!!")
+
+# Perform a query to fetch effectivness
+query = text(
+    "SELECT * "
+    "FROM import_survey;"
+)
+
+result = connection.execute(query)
+
+# Fetch all the rows and convert them to a Pandas DataFrame
+df = pd.DataFrame(result.fetchall(), columns=result.keys())
+
+print("!!! df retrieved values:", df)
+#df = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
+#custs = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 
 layout = html.Div(
     children=[
@@ -64,19 +98,18 @@ layout = html.Div(
                                 dmc.NumberInput(id = 'input-age', label = 'Age', value = 18),
                                 create_dropdown('select-gender', 'Gender', df.gender.unique()),
                                 create_dropdown('select-study-field', 'Study Field', df.study_field.unique()),
-                                create_dropdown('select-edu-level', 'Educational level', df.edu_level.unique()),
+                                create_dropdown('select-edu-level', 'Educational level', df.education_level.unique()),
                                 create_dropdown('select-employment', 'Employment Status', df.employment.unique()),
-                                create_dropdown('select-studying-people', 'preferred study type', df.studying_people.unique()),
-                                create_dropdown('select-studying-place', 'Study Place', df.studying_place.unique()),
-                                create_dropdown('select-studying-sound', 'Study Sound', df.studying_sound.unique()),
-                                create_dropdown('select-studying-time', 'studying time', df.studying_time.unique()),
-                                create_dropdown('select-studying-classes', 'Studying Classes', df.studying_classes.unique()),
-                                create_dropdown('select-studying-help', 'Support by study difficulty', df.studying_help.unique()),
-                                create_dropdown('select-likert-platforms-effectiveness', 'likert_platforms_effectiveness', df.likert_platforms_effectiveness.unique()),
-                                create_dropdown('select-studying-help', 'Support by study difficulty', df.studying_help.unique()),
-                                create_dropdown('select-trust-ai', 'Trustworthy of AI', df.likert_trust_ai_materials.unique()),
-                                create_dropdown('select-relying-recomm-path', 'Relying on recommendation paths', df.likert_open_AI_studyplan.unique()),
-                                create_dropdown('select-openness-recomm', 'Openness to recommendation Sys.', df.likert_open_edurecsys.unique()),
+                                create_dropdown('select-studying-people', 'preferred study type', df.learning_style.unique()),
+                                create_dropdown('select-studying-place', 'Study Place', df.study_place.unique()),
+                                create_dropdown('select-studying-sound', 'Study Sound', df.loudness.unique()),
+                                create_dropdown('select-studying-time', 'studying time', df.sessions.unique()),
+                                create_dropdown('select-studying-classes', 'Studying Classes', df.on_in.unique()),
+                                create_dropdown('select-studying-help', 'Support by study difficulty', df.support.unique()),
+                                create_dropdown('select-likert-platforms-effectiveness', 'likert_platforms_effectiveness', df.effectiveness.unique()),
+                                create_dropdown('select-trust-ai', 'Trustworthy of AI', df.trust.unique()),
+                                create_dropdown('select-relying-recomm-path', 'Relying on recommendation paths', df.openness.unique()),
+                                #create_dropdown('select-openness-recomm', 'Openness to recommendation Sys.', df.likert_open_edurecsys.unique()),
 
                             ]
                         ),
