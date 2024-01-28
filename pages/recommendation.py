@@ -126,6 +126,67 @@ layout = html.Div(
         )
     ]
 )
+@app.callback(
+    Output('accurancy', 'value'),
+    Input('submit-recomm', 'n_clicks'),
+    State('input-age', 'value'),
+    State('select-gender', 'value'),
+    State('select-study-field', 'value'),
+    State('select-edu-level', 'value'),
+    State('select-employment', 'value'),
+    State('select-studying-people', 'value'),
+    State('select-studying-place', 'value'),
+    State('select-studying-sound', 'value'),
+    State('select-studying-time', 'value'),
+    State('select-studying-classes', 'value'),
+    State('select-studying-help', 'value'),
+    State('select-likert-platforms-effectiveness', 'value'),
+    State('select-trust-ai', 'value'),
+    State('select-relying-recomm-path', 'value'),
+    prevent_initial_call=True
+)
+def insert_into_database(n_clicks,age, gender, study_field, edu_level, employment, studying_people, studying_place,
+                         studying_sound, studying_time, studying_classes, studying_help, likert_effectiveness,
+                         trust_ai, relying_recomm_path):
+    # Create an SQLAlchemy engine to connect to your database
+    # Replace 'your_database_uri' with your actual database URI
+    print(f"Age: {age}")
+    print(f"Gender: {gender}")
+    print(f"Study Field: {study_field}")
+    print(f"Educational Level: {edu_level}")
+    print(f"Employment Status: {employment}")
+    print(f"Preferred Study Type: {studying_people}")
+    print(f"Study Place: {studying_place}")
+    print(f"Study Sound: {studying_sound}")
+    print(f"Studying Time: {studying_time}")
+    print(f"Studying Classes: {studying_classes}")
+    print(f"Support by Study Difficulty: {studying_help}")
+    print(f"Likert Platforms Effectiveness: {likert_effectiveness}")
+    print(f"Trustworthy of AI: {trust_ai}")
+    print(f"Relying on Recommendation Paths: {relying_recomm_path}")
+
+    # Create a DataFrame with the user-entered data
+    user_data = pd.DataFrame({
+        'Age': [age],
+        'Gender': [gender],
+        'Study_Field': [study_field],
+        'Educational_Level': [edu_level],
+        'Employment_Status': [employment],
+        'Preferred_Study_Type': [studying_people],
+        'Study_Place': [studying_place],
+        'Study_Sound': [studying_sound],
+        'Studying_Time': [studying_time],
+        'Studying_Classes': [studying_classes],
+        'Support_by_Study_Difficulty': [studying_help],
+        'Likert_Platforms_Effectiveness': [likert_effectiveness],
+        'Trustworthy_of_AI': [trust_ai],
+        'Relying_on_Recommendation_Paths': [relying_recomm_path]
+    })
+
+
+    # Insert the DataFrame into the SQL database table 'import_extra'
+    user_data.to_sql('user_input_data', con=engine_azure, index=False, if_exists='append')
+
 @app.callback(Output('info-ml', 'opened'),
                 Input('more-info', 'n_clicks'),
                 State('info-ml', 'opened'))
