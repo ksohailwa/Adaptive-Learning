@@ -4,6 +4,7 @@ import dash_core_components as dcc
 from dash import Input, Output, State, html, ctx
 from dash_iconify import DashIconify
 from app import app
+from dash_core_components import Dropdown
 import urllib.parse
 from sqlalchemy import create_engine
 from sqlalchemy import text
@@ -20,11 +21,15 @@ def create_dropdown(id, label, options_list):
     # Filter out null values from the options list
     filtered_options = [{'value': i, 'label': i} for i in options_list if i is not None]
     
-    return dcc.Dropdown(
-        id=id,
-        options=filtered_options,
-        value=filtered_options[0]['value'] if filtered_options else None
-    )
+    return html.Div([
+        html.Label(label, htmlFor=id),  # Add label for the dropdown
+        dcc.Dropdown(
+            id=id,
+            options=filtered_options,
+            value=filtered_options[0]['value'] if filtered_options else None
+        )
+    ])
+    
 
 # Load dataset from Azure SQL DB
 params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
@@ -48,7 +53,6 @@ df = pd.DataFrame(result.fetchall(), columns=result.keys())
 print("!!! df retrieved values:", df)
 #df = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 #custs = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
-
 layout = html.Div(
     children=[
         dmc.Title(children = 'Recommending a Personalized Education System', order = 3, style = {'font-family':'IntegralCF-ExtraBold', 'text-align':'center', 'color' :'slategray'}),

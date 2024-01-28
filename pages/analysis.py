@@ -3,11 +3,11 @@ import pandas as pd
 import urllib.parse
 import plotly.express as px
 import dash_mantine_components as dmc
-from sqlalchemy import create_engine
-from sqlalchemy import text
+
 from dash import Input, Output, State, html, dcc, dash_table, ctx
 from dash_iconify import DashIconify
-
+from sqlalchemy import create_engine
+from sqlalchemy import text
 from dash import callback_context
 from app import app
 
@@ -64,7 +64,7 @@ except Exception as e:
     print("Error:", str(e))
 
 ############################
-df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
+#df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 layout = html.Div(
     style = {'overflow-x':'hidden'},
     children=[
@@ -177,7 +177,7 @@ layout = html.Div(
 @app.callback(Output('pie_graph', 'figure'),
                 Input('column_name_num','value'))
 def update_graph(value):
-    df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
+    #df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
     df2 = df2[value].value_counts().reset_index()
     df2.columns = ['value', 'count']
     unique_values = df2['value'].unique()
