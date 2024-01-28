@@ -1,6 +1,8 @@
+import dash as dash
 import pandas as pd
 import dash_mantine_components as dmc
 import dash_core_components as dcc
+import pages
 from dash import Input, Output, State, html, ctx
 from dash_iconify import DashIconify
 from app import app
@@ -9,20 +11,14 @@ import urllib.parse
 from sqlalchemy import create_engine
 from sqlalchemy import text
 
-# def create_dropdown(id,label, options_list):
-#     return dmc.Select(
-#         id = id,
-#         label = label,
-#         data = [{'value':i, 'label': i} for i in options_list],
-#         value = options_list[0]
-#     )
+
 
 def create_dropdown(id, label, options_list):
     # Filter out null values from the options list
     filtered_options = [{'value': i, 'label': i} for i in options_list if i is not None]
     
     return html.Div([
-        html.Label(label, htmlFor=id),  # Add label for the dropdown
+        html.Label(label, htmlFor=id),  
         dcc.Dropdown(
             id=id,
             options=filtered_options,
@@ -51,8 +47,6 @@ result = connection.execute(query)
 df = pd.DataFrame(result.fetchall(), columns=result.keys())
 
 print("!!! df retrieved values:", df)
-#df = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
-#custs = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 layout = html.Div(
     children=[
         dmc.Title(children = 'Recommending a Personalized Education System', order = 3, style = {'font-family':'IntegralCF-ExtraBold', 'text-align':'center', 'color' :'slategray'}),
@@ -131,9 +125,9 @@ layout = html.Div(
     ]
 )
 @app.callback(
-    Output('accurancy', 'value'),
-    Input('submit-recomm', 'n_clicks'),
-    State('input-age', 'value'),
+    [Output('accurancy', 'value'),Output('url', 'pathname')],
+    [Input('submit-recomm', 'n_clicks')],
+    [State('input-age', 'value'),
     State('select-gender', 'value'),
     State('select-study-field', 'value'),
     State('select-edu-level', 'value'),
@@ -146,7 +140,7 @@ layout = html.Div(
     State('select-studying-help', 'value'),
     State('select-likert-platforms-effectiveness', 'value'),
     State('select-trust-ai', 'value'),
-    State('select-relying-recomm-path', 'value'),
+    State('select-relying-recomm-path', 'value')],
     prevent_initial_call=True
 )
 def insert_into_database(n_clicks,age, gender, study_field, edu_level, employment, studying_people, studying_place,
@@ -154,42 +148,47 @@ def insert_into_database(n_clicks,age, gender, study_field, edu_level, employmen
                          trust_ai, relying_recomm_path):
     # Create an SQLAlchemy engine to connect to your database
     # Replace 'your_database_uri' with your actual database URI
-    print(f"Age: {age}")
-    print(f"Gender: {gender}")
-    print(f"Study Field: {study_field}")
-    print(f"Educational Level: {edu_level}")
-    print(f"Employment Status: {employment}")
-    print(f"Preferred Study Type: {studying_people}")
-    print(f"Study Place: {studying_place}")
-    print(f"Study Sound: {studying_sound}")
-    print(f"Studying Time: {studying_time}")
-    print(f"Studying Classes: {studying_classes}")
-    print(f"Support by Study Difficulty: {studying_help}")
-    print(f"Likert Platforms Effectiveness: {likert_effectiveness}")
-    print(f"Trustworthy of AI: {trust_ai}")
-    print(f"Relying on Recommendation Paths: {relying_recomm_path}")
+    if n_clicks:
+        print(f"Age: {age}")
+        print(f"Gender: {gender}")
+        print(f"Study Field: {study_field}")
+        print(f"Educational Level: {edu_level}")
+        print(f"Employment Status: {employment}")
+        print(f"Preferred Study Type: {studying_people}")
+        print(f"Study Place: {studying_place}")
+        print(f"Study Sound: {studying_sound}")
+        print(f"Studying Time: {studying_time}")
+        print(f"Studying Classes: {studying_classes}")
+        print(f"Support by Study Difficulty: {studying_help}")
+        print(f"Likert Platforms Effectiveness: {likert_effectiveness}")
+        print(f"Trustworthy of AI: {trust_ai}")
+        print(f"Relying on Recommendation Paths: {relying_recomm_path}")
 
     # Create a DataFrame with the user-entered data
-    user_data = pd.DataFrame({
-        'Age': [age],
-        'Gender': [gender],
-        'Study_Field': [study_field],
-        'Educational_Level': [edu_level],
-        'Employment_Status': [employment],
-        'Preferred_Study_Type': [studying_people],
-        'Study_Place': [studying_place],
-        'Study_Sound': [studying_sound],
-        'Studying_Time': [studying_time],
-        'Studying_Classes': [studying_classes],
-        'Support_by_Study_Difficulty': [studying_help],
-        'Likert_Platforms_Effectiveness': [likert_effectiveness],
-        'Trustworthy_of_AI': [trust_ai],
-        'Relying_on_Recommendation_Paths': [relying_recomm_path]
-    })
+        user_data = pd.DataFrame({
+            'Age': [age],
+            'Gender': [gender],
+            'Study_Field': [study_field],
+            'Educational_Level': [edu_level],
+            'Employment_Status': [employment],
+            'Preferred_Study_Type': [studying_people],
+            'Study_Place': [studying_place],
+            'Study_Sound': [studying_sound],
+            'Studying_Time': [studying_time],
+            'Studying_Classes': [studying_classes],
+            'Support_by_Study_Difficulty': [studying_help],
+            'Likert_Platforms_Effectiveness': [likert_effectiveness],
+            'Trustworthy_of_AI': [trust_ai],
+            'Relying_on_Recommendation_Paths': [relying_recomm_path]
+        })
 
 
     # Insert the DataFrame into the SQL database table 'import_extra'
-    user_data.to_sql('user_input_data', con=engine_azure, index=False, if_exists='append')
+        user_data.to_sql('user_input_data', con=engine_azure, index=False, if_exists='append')
+    
+        return 83, "/finalRecom"
+    else:
+        return dash.no_update, dash.no_update
 
 @app.callback(Output('info-ml', 'opened'),
                 Input('more-info', 'n_clicks'),
@@ -199,3 +198,8 @@ def open_modal(n, opened):
         return not opened
     else:
         return False
+    
+
+
+
+

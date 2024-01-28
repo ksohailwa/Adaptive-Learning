@@ -239,6 +239,8 @@ def display_content(pathname):
         return pages.analysis.layout
     elif page_name == 'recommendation':
         return pages.recommendation.layout
+    elif page_name == 'finalRecom':
+        return pages.finalRecom.layout
     
 @app.callback([Output(component_id='liveindicator', component_property='className'),
               Output(component_id='indicatorpulse', component_property='className')],
