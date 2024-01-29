@@ -11,60 +11,29 @@ from sqlalchemy import text
 from dash import callback_context
 from app import app
 
-# db_server_name = 'adaptive-learning-server.database.windows.net.1433'
-# database_name = 'adaptive_learning_db'
-# username = 'superadmin'
-# password = 'Poorpassword@2024'
-
-# params = urllib.parse.quote_plus(
-#     'Driver={ODBC Driver 17 for SQL Server};'
-#     'Server=tcp:{};Database={};'
-#     'Uid={};Pwd={};Encrypt=yes;'
-#     'TrustServerCertificate=no;'
-#     'Connection Timeout=30;'.format(
-#         db_server_name,
-#         database_name,
-#         '{}@{}'.format(username, db_server_name),
-#         password
-#     )
-# )
-
-# conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
-# engine_azure = create_engine(conn_str, echo=True)
 
 params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
 conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
 engine_azure = create_engine(conn_str,echo=True)
 
-#db_engine = create_engine('Driver=ODBC Driver 18 for SQL Server;Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+connection = engine_azure.connect()
+print("Connection successful !!!!")
 
-try:
-
-    # Establish a connection
-    connection = engine_azure.connect()
-
-    print("!!!! Finally Connection successful !!!!")
 
     # Perform a query to fetch table names
-    table_query = text(
-        "SELECT table_name "
-        "FROM information_schema.tables "
-        "WHERE table_type = 'BASE TABLE';"
+table_query = text(
+    "SELECT * "
+    "FROM main_data_web; "
     )
-    result = connection.execute(table_query)
+result = connection.execute(table_query)
 
+# Fetch all the rows and convert them to a Pandas DataFrame
+df = pd.DataFrame(result.fetchall(), columns=result.keys())
     # Fetch the results
-    table_names = [row[0] for row in result.fetchall()]
-    print("Displying all tables we have currently in the database:", table_names)
+
+print("!!! df retrieved values:", df)
     
-    # Close the connection
-    connection.close()
-
-except Exception as e:
-    print("Error:", str(e))
-
 ############################
-#df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
 layout = html.Div(
     style = {'overflow-x':'hidden'},
     children=[
@@ -112,7 +81,7 @@ layout = html.Div(
                                             label = 'Select Column To Investigate (Categorical)',
                                             style= {'width':'50%','margin':'auto'},
                                             data = [
-                                                {'label':i, 'value':i} for i in df2[['age','gender','study_field','employment','studying_people','studying_place']].columns 
+                                                {'label':i, 'value':i} for i in df[['age','gender','study_field','employment','style','study_place']].columns 
                                                 
                                             ],
                                             value = 'gender'
@@ -151,7 +120,7 @@ layout = html.Div(
                                     label = 'Select Column To Investigate ',
                                     style= {'width':'50%','margin':'auto'},
                                     data = [
-                                        {'label':i, 'value':i} for i in df2[['gender','edu_level', 'study_field']].columns
+                                        {'label':i, 'value':i} for i in df[['gender','education_level', 'study_field']].columns
                                     ],
                                     value = 'gender'
                                 ),
@@ -177,8 +146,8 @@ layout = html.Div(
 @app.callback(Output('pie_graph', 'figure'),
                 Input('column_name_num','value'))
 def update_graph(value):
-    #df2 = pd.read_csv(r'/Users/mohamedatef/Dev/LA--AdaptiveLearning/data/Survey_data.csv')
-    df2 = df2[value].value_counts().reset_index()
+
+    df2 = df[value].value_counts().reset_index()
     df2.columns = ['value', 'count']
     unique_values = df2['value'].unique()
     color_map = {value: px.colors.qualitative.Set1[i % len(px.colors.qualitative.Set1)] for i, value in enumerate(unique_values)}
@@ -189,7 +158,7 @@ def update_graph(value):
 
 ##########################################################
 labels = ['15-20', '21-25', '26-30', '31-35', '36-40', '41-45']
-df2['AgeRange'] = pd.cut(df2['age'], bins=[15, 20, 25, 30, 35, 40, 45], labels=labels, right=False)
+df['AgeRange'] = pd.cut(df['age'], bins=[15, 20, 25, 30, 35, 40, 45], labels=labels, right=False)
 
 @app.callback(Output('compare_graph', 'figure'),
               Input('column_name', 'value'))
@@ -199,18 +168,18 @@ def update_graph(value):
     is_age_dropdown = 'column_name' in triggered_id and callback_context.inputs_list[0]['value'] == 'age'
 
     if is_age_dropdown:
-        value_counts = df2[['studying_help', 'AgeRange']].groupby(['studying_help', 'AgeRange']).size().to_frame().reset_index()
-        value_counts.columns = ['studying_help', 'value', 'count']
+        value_counts = df[['study_place', 'AgeRange']].groupby(['study_place', 'AgeRange']).size().to_frame().reset_index()
+        value_counts.columns = ['study_place', 'value', 'count']
     else:
 
-        value_counts = df2[['studying_help', value]].groupby(['studying_help', value]).size().to_frame().reset_index()
-        value_counts.columns = ['studying_help', 'value', 'count']
+        value_counts = df[['study_place', value]].groupby(['study_place', value]).size().to_frame().reset_index()
+        value_counts.columns = ['study_place', 'value', 'count']
 
  
     unique_values = value_counts['value'].unique()
     color_map = {val: px.colors.qualitative.Set1[i % len(px.colors.qualitative.Set1)] for i, val in enumerate(unique_values)}
 
-    fig = px.bar(value_counts, x='value', y='count', title=f'Distribution of {value}', color='studying_help',
+    fig = px.bar(value_counts, x='value', y='count', title=f'Distribution of {value}', color='study_place',
                  color_discrete_map=color_map, barmode='group')
 
 
@@ -228,22 +197,22 @@ def update_modal_cat(n, opened):
     if ctx.triggered_id is None:
         return [], False
 
-    dft=df2[['gender', 'studying_help']]
+    dft=df[['gender', 'study_place']]
 
     final_df = pd.DataFrame()
 
     for i in dft.columns.tolist():
-        if i == 'studying_help':
+        if i == 'study_place':
             pass
         else:
-            dft = dft[['studying_help',i]].groupby(['studying_help', i]).size().to_frame().reset_index()
-            dft.columns = ['studying_help', 'value', 'count']
-            final_df = pd.concat([final_df, dft[[ 'studying_help','value', 'count']]], ignore_index = True)
+            dft = dft[['study_place',i]].groupby(['study_place', i]).size().to_frame().reset_index()
+            dft.columns = ['study_place', 'value', 'count']
+            final_df = pd.concat([final_df, dft[[ 'study_place','value', 'count']]], ignore_index = True)
 
     print(final_df)
     return dash_table.DataTable(
         data = final_df.to_dict('records'),
-        columns = [{'name':i, 'id':j} for i,j in zip([ 'studying_help','value', 'count'], final_df.columns.tolist())],
+        columns = [{'name':i, 'id':j} for i,j in zip([ 'study_place','value', 'count'], final_df.columns.tolist())],
         style_as_list_view=True,
         style_cell={'textAlign': 'left'}, 
     ), not opened
@@ -255,27 +224,28 @@ def update_modal_cat(n, opened):
                 Input('table-nums', 'n_clicks'),
                 State('table-nums', 'opened'),
                 prevent_inital_call = True)
-def update_modal_cat(n, opened):
+
+def update_modal_num(n, opened):
 
     if ctx.triggered_id is None:
         return [], False
-    dft= df2[['employment', 'edu_level']]
+    dft= df[['employment', 'education_level']]
     final_df = pd.DataFrame()
     for i in dft.columns.tolist():
-        if i == 'edu_level':
+        if i == 'education_level':
             pass
         else:
             
-            dft = dft[['edu_level',i]].groupby(['edu_level', i]).size().to_frame().reset_index()
-            dft.columns = ['edu_level', 'value', 'count']
-            final_df = pd.concat([final_df, dft[['edu_level', 'value', 'count']]], ignore_index = True)
+            dft = dft[['education_level',i]].groupby(['education_level', i]).size().to_frame().reset_index()
+            dft.columns = ['education_level', 'value', 'count']
+            final_df = pd.concat([final_df, dft[['education_level', 'value', 'count']]], ignore_index = True)
 
 
     print(final_df)
 
     return dash_table.DataTable(
         data = final_df.to_dict('records'),
-        columns = [{'name':i, 'id':j} for i,j in zip(['edu_level', 'value', 'count'], final_df.columns.tolist())],
+        columns = [{'name':i, 'id':j} for i,j in zip(['education_level', 'value', 'count'], final_df.columns.tolist())],
         style_as_list_view=True,
         style_cell={'textAlign': 'left'},
     ), not opened
