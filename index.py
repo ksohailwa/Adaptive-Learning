@@ -10,7 +10,7 @@ server = app.server
 def create_main_nav_link(icon, label, href):
     return dcc.Link(
         dmc.Group(
-            #direction='row',
+            direction='row',
             position='center',
             spacing=10,
             style={'margin-bottom':5},
@@ -33,7 +33,7 @@ def create_main_nav_link(icon, label, href):
 def create_accordianitem(icon, label, href):
     return dcc.Link(
         dmc.Group(
-            #direction='row',
+            direction='row',
             position='left',
             spacing=10,
             style={'margin-bottom':10},
@@ -177,7 +177,7 @@ app.layout = dmc.MantineProvider(
                             type="scroll",
                             children=[
                                 dmc.Group(
-                                    #direction = 'column',
+                                    direction = 'column',
                                     align = 'center',
                                     position = 'center',\
                                     spacing = 'xs',
@@ -189,7 +189,7 @@ app.layout = dmc.MantineProvider(
                                 
                                 dmc.Divider(label='Menu', style={"marginBottom": 20, "marginTop": 5}),
                                 dmc.Group(
-                                    #direction="column",
+                                    direction="column",
                                     children=[
                                         create_main_nav_link(
                                             icon="mdi:home-circle",
