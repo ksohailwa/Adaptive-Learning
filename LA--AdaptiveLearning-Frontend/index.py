@@ -1,6 +1,7 @@
 import dash_mantine_components as dmc
 from dash import Input, Output, html, dcc
 from dash_iconify import DashIconify
+
 import pages
 from app import app
 
@@ -95,9 +96,9 @@ app.layout = dmc.MantineProvider(
                                                             styles={"display": "none"},
                                                             children=[
                                                                 dmc.Group(
-                                                                    #direction='column',
+                                                                    direction='column',
                                                                     align='center', spacing=0, position='center', children=[
-                                                                    dmc.Text("AdaptiveLearning", size="xl", color="dark", style={'font-family': 'Arial', 'font-weight': 'bold'}),
+                                                                    dmc.Text("AdaptiveLearning", size="lg", color="dark", style={'font-family': 'Arial', 'font-weight': 'bold'}),
                                                                     #dmc.Text("Data Detectives Group", color="lime", size="lg", style={'margin-top': 4, 'font-family': 'Verdana'})
                                                                     ]
 
@@ -117,7 +118,7 @@ app.layout = dmc.MantineProvider(
                                             ]
                                         ),
                                         dmc.Group(
-                                            #direction = 'row',
+                                            direction = 'row',
                                             position="right",
                                             align="center",
                                             spacing="md",
@@ -157,7 +158,7 @@ app.layout = dmc.MantineProvider(
                     overflow = 'inside',
                     size = 'xl',
                     children = [
-                        
+                         
                     ],
                     opened = False
                 ),

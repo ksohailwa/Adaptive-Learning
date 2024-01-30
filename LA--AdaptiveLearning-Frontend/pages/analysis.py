@@ -40,7 +40,7 @@ layout = html.Div(
         dmc.Modal(
             id = 'cat-table',
             size = 'xl',
-            title = [dmc.Title('Study Place Choice in Relation to Gender', order = 2)],
+            title = [dmc.Title('Support Method Choice in Relation to Gender', order = 2)],
             children = [
 
             ]
@@ -70,7 +70,7 @@ layout = html.Div(
                                 dmc.Group(
                                     position = 'apart',
                                     children = [
-                                        dmc.Title('Total Age Range vs Support Difficulty', order = 4),
+                                        dmc.Title('Total Age range vs Support difficulty', order = 4),
                                         dmc.ActionIcon(id = 'categorical-table', children = [DashIconify(icon = 'material-symbols:backup-table', width=24)], color = 'blue', variant = 'filled', size = 'lg')
                                     ]
                                 ),
@@ -111,7 +111,7 @@ layout = html.Div(
                                 dmc.Group(
                                     position = 'apart', 
                                     children = [
-                                        dmc.Title('Pie Chart: Participant Information', order = 4),
+                                        dmc.Title('PieChart participants information', order = 4),
                                         dmc.ActionIcon(id = 'table-nums', children = [DashIconify(icon = 'material-symbols:backup-table', width=24)], color = 'blue', variant = 'filled', size = 'lg')
                                     ]
                                 ),
@@ -168,18 +168,18 @@ def update_graph(value):
     is_age_dropdown = 'column_name' in triggered_id and callback_context.inputs_list[0]['value'] == 'age'
 
     if is_age_dropdown:
-        value_counts = df[['study_help', 'AgeRange']].groupby(['study_help', 'AgeRange']).size().to_frame().reset_index()
-        value_counts.columns = ['study_help', 'value', 'count']
+        value_counts = df[['study_place', 'AgeRange']].groupby(['study_place', 'AgeRange']).size().to_frame().reset_index()
+        value_counts.columns = ['study_place', 'value', 'count']
     else:
 
-        value_counts = df[['study_help', value]].groupby(['study_help', value]).size().to_frame().reset_index()
-        value_counts.columns = ['study_help', 'value', 'count']
+        value_counts = df[['study_place', value]].groupby(['study_place', value]).size().to_frame().reset_index()
+        value_counts.columns = ['study_place', 'value', 'count']
 
  
     unique_values = value_counts['value'].unique()
     color_map = {val: px.colors.qualitative.Set1[i % len(px.colors.qualitative.Set1)] for i, val in enumerate(unique_values)}
 
-    fig = px.bar(value_counts, x='value', y='count', title=f'Distribution of {value}', color='study_help',
+    fig = px.bar(value_counts, x='value', y='count', title=f'Distribution of {value}', color='study_place',
                  color_discrete_map=color_map, barmode='group')
 
 

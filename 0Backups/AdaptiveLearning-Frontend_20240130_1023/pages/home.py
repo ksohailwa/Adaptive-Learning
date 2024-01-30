@@ -10,18 +10,21 @@ layout = html.Div(
     children=[
         html.Header(
             children=[
-                
-                html.H1("Welcome to Adaptive Learning!", style={'margin-bottom': '10px'}),
-                html.P("Meet our dynamic Master's team – Bahareh, Shima, Maryam, Sohail, Qintha, and 2 Mohammed We're thrilled to introduce our project designed to transform your learning experience.", style={'margin-bottom': '1px'}),
+                html.H1("Adaptive Learning", style={'margin-bottom': '10px'}),
+                html.P("Welcome to our exciting project! Let us recommend you how to learn in the best way!",
+                       style={'margin-bottom': '20px'}),
                 html.Img(src='..\\assets\\animation.gif', alt="Project Photo",
-                         style={'width': '100%'})
+                         style={'width': '100%', 'margin-bottom': '20px'})
             ],
             style={'text-align': 'center'}
         ),
         html.Section(
             children=[
-                html.H1("About the Project", style={'margin-bottom': '10px'}),
-                html.P("Adaptive Learning – a personalized journey tailored just for you. Answer a few questions, and our machine learning algorithms identify your academic peers, providing personalized recommendations.", style={'margin-bottom': '10px'}),
+                html.H2("About us", style={'margin-bottom': '10px'}),
+                html.P(
+                    "Here, you can find different analyses from students "
+                    "--"
+                )
             ],
             style={'text-align': 'center', 'margin-bottom': '20px'}
         ),

@@ -60,7 +60,7 @@ layout = html.Div(
                 dmc.SimpleGrid(
                     cols = 2,
                     children = [
-                        dmc.Title('Collaborative Filtering Recommendation', order = 4, style = {'text-align':'center'}),
+                        dmc.Title('Content-based Recommendation', order = 4, style = {'text-align':'center'}),
                         dmc.Title('Accurancy', order = 4, style = {'text-align':'center'}),
                         html.Img(
                             src = app.get_asset_url('ml images/CB-Info.jpg'),
@@ -70,7 +70,7 @@ layout = html.Div(
                             src = app.get_asset_url('ml images/Acc-Info.png'),
                             style = {'width':'25vw','justify-self':'center'}
                         ),
-                        dmc.Text('In Collaborative Filtering, we tend to find similar users and recommend what similar users like. In this type of recommendation system, we do not use the features of the item to recommend it, rather we classify the users into clusters of similar types and recommend each user according to the preference of its cluster.', style= {'justify-self':'center'}),
+                        dmc.Text('A content-based recommender system suggests items to users based on their preferences and the features of items. It analyzes the content of items and matches them with user profiles.', style= {'justify-self':'center'}),
                         dmc.Text('What is accuracy in recommender system? Accuracy means that the system is working as it is supposed to or as expected to, however it does not imply that recommendations are relevant to a user. Usefulness is one of the factors which contributes to user satisfaction.', style= {'justify-self':'center'}),
                     ]
                 ),
@@ -81,7 +81,7 @@ layout = html.Div(
             m = 'sm',
             pb = 'sm',
             shadow = 'md',
-            withBorder = False,
+            withBorder = True,
             radius = 'md',
             children = [
                 dmc.Stack(
@@ -91,7 +91,7 @@ layout = html.Div(
                         dmc.Divider(label = 'By using the data collected through your answers, you get you Recommend  ', labelPosition='center'),
                         dmc.Title('Please answer these questions and submit', order = 4, style = {'text-align':'center'}),                     
                         dmc.SimpleGrid(
-                            cols = 3,
+                            cols = 4,
                             children = [
                                 dmc.NumberInput(id = 'input-age', label = 'Age', value = 18),
                                 create_dropdown('select-gender', 'Gender', df.gender.unique()),
@@ -115,7 +115,7 @@ layout = html.Div(
 
                         dmc.Group(spacing = 'sm', children = [dmc.Title('Accurancy of your recommendetion', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
                         dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accurancy!'),
-                        dmc.Progress(id = 'accurancy', value=64, class_name = 'progressbar', color = 'green', label = '64%', size = 'xl'),
+                        dmc.Progress(id = 'accurancy', value=83, class_name = 'progressbar', color = 'green', label = '83%', size = 'xl'),
                         
                         
                     ]
@@ -140,8 +140,7 @@ layout = html.Div(
     State('select-studying-help', 'value'),
     State('select-likert-platforms-effectiveness', 'value'),
     State('select-trust-ai', 'value'),
-    State('select-relying-recomm-path', 'value')
-    ],
+    State('select-relying-recomm-path', 'value')],
     prevent_initial_call=True
 )
 def insert_into_database(n_clicks,age, gender, study_field, edu_level, employment, studying_people, studying_place,
