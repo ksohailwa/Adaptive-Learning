@@ -1,4 +1,3 @@
-
 import pandas as pd
 import urllib.parse
 import plotly.express as px
