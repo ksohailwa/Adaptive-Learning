@@ -81,7 +81,7 @@ layout = html.Div(
                                             label = 'Select Column To Investigate (Categorical)',
                                             style= {'width':'50%','margin':'auto'},
                                             data = [
-                                                {'label':i, 'value':i} for i in df[['age','gender','study_field','employment','style','study_place']].columns 
+                                                {'label':i, 'value':i} for i in df[['age','gender','study_field','employment','learning_style','study_place']].columns 
                                                 
                                             ],
                                             value = 'gender'
