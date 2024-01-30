@@ -53,7 +53,7 @@ layout = html.Div(
             ]
         ),
         dmc.Group(
-            #direction = 'column',
+            direction = 'column',
             grow = True,
             position = 'center',
             spacing = 'sm',
