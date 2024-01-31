@@ -104,7 +104,7 @@ layout = html.Div(
                                 create_dropdown('select-studying-time', 'studying time', df.sessions.unique()),
                                 create_dropdown('select-studying-classes', 'Studying Classes', df.on_in.unique()),
                                 create_dropdown('select-studying-help', 'Support by study difficulty', df.support.unique()),
-                                create_dropdown('select-likert-platforms-effectiveness', 'likert_platforms_effectiveness', df.effectiveness.unique()),
+                                create_dropdown('select-likert-platforms-effectiveness', 'effectiveness of platforms', df.effectiveness.unique()),
                                 create_dropdown('select-trust-ai', 'Trustworthy of AI', df.trust.unique()),
                                 create_dropdown('select-relying-recomm-path', 'Relying on recommendation paths', df.openness.unique()),
                                 #create_dropdown('select-openness-recomm', 'Openness to recommendation Sys.', df.likert_open_edurecsys.unique()),
@@ -113,7 +113,7 @@ layout = html.Div(
                         ),
                         dmc.Button(id = 'submit-recomm', children = 'Submit'),
 
-                        dmc.Group(spacing = 'sm', children = [dmc.Title('Accurancy of your recommendetion', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
+                        dmc.Group(spacing = 'sm', children = [dmc.Title('Accurancy of your recommendation', order = 3),dmc.ActionIcon(id = 'more-info', color = 'blue', size = 'lg', children = [DashIconify(icon = 'material-symbols:info', width = 24)])]),
                         dmc.Text(size = 'xs', color = 'dimmed', children = 'We want high % of accurancy!'),
                         dmc.Progress(id = 'accurancy', value=64, class_name = 'progressbar', color = 'green', label = '64%', size = 'xl'),
                         
