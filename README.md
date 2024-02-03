@@ -73,9 +73,8 @@ You can deploy our application locally by following these steps:
 
 ### Run Server
 
-Write "python index.py" in the terminal
-In the end you can simply run the "index.py" file and then server will run on you localhost. Then just open Browser and access http://localhost:5000/ and enjoy the Web Application.
-
+ - Write "python index.py" in the terminal
+ - Access http://127.0.0.1:8050/ on your browser
 
 
 
