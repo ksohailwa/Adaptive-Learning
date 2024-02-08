@@ -76,10 +76,21 @@ All visualizations were built using <a href="https://plotly.com/">Plotly</a>.
 
 ### Deployment
 
-You can deploy our application locally by following these steps:
+To be able to deploy our application you need to install the following requirements:
 
- 1. Install python, plotly, dash,
- 2. 
+ * python==3.8
+ * pandas==2.1.3
+ * plotly==5.18.0
+ * dash==2.14.2
+ * dash-mantine-components==0.10.2
+ * dash-iconify==0.1.2
+ * SQLAlchemy==2.0.25
+ * dash-html-components==2.0.0
+ * dash-bootstrap-components==1.5.0
+ * dash-core-components==2.0.0
+ * scikit-learn==1.3.2
+ * caserecommender==1.1.1
+
 
 There are 2 ways to install the dependencies with the specific versions we used in implementing this web application:
 
