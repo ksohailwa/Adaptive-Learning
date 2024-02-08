@@ -81,6 +81,16 @@ You can deploy our application locally by following these steps:
  1. Install python, plotly, dash,
  2. 
 
+There are 2 ways to install the dependencies with the specific versions we used in implementing this web application:
+
+ 1. Using pip package manager command
+```ruby
+pip install -r requirements.txt
+```
+
+ 2. Using conda environment.yml file
+
+
 
 ### Run Server
 
