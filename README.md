@@ -1,5 +1,7 @@
 
 ### Adaptive Learning
+<img src="assets/ibm_logo.png" width="100">
+
 
 "Adaptive Learning" is a web application that
 
@@ -10,22 +12,21 @@
       - personal evaluation of effectiveness of learning platforms based on different selectable user attributes
       - distribution of user (in percent) based on different selectable user attributes
 
-This project was submitted for the Learning Analytics course at the University of Duisburg-Essen.
+This project was submitted for the Learning Analytics course at the <a href="https://www.uni-due.de/en/index.php">University of Duisburg-Essen</a>.
 
 
 ### Dataset Description
 
  * data from own Google Survey with 22 Questions and 70+ participants (anonymized)
- * the results were stored in an SQL database 
+ * the results were stored in an SQL database
 
+You can access and participate in the survey by clicking this <a href="https://docs.google.com/forms/d/e/1FAIpQLSd31k__bA9LBGXkNk2o7dfdR6-4crZceVpVKv3jm3JAhQ7L6Q/viewform">link</a> 
 
 ### Implementation Technologies
 
  * Frontend
   + Website
     + Dash
-    + 
-    + 
   + Visualization
     + Plotly
  * Backend
@@ -46,16 +47,23 @@ This project was submitted for the Learning Analytics course at the University o
 
 ### Machine Learning
 
- * Clustering
+ * Clustering Existing Users
     + Algorithm: KMeans
     + Needed Libraries: sklearn, pandas
+ * Classifying New User
+    + Algorithm: KMeans
+    + Needed Libraries: sklearn, pandas 
  * Recommendation
-    + Algorithm:
-    + Needed Libraries: caserec, 
+    + Algorithm: ItemKNN
+    + Needed Libraries: caserec, pandas
+
+<img src="assets/machine_learning_concept.png">
+
+  
 
 ### Web structure preparation (index.py)
 
-"index.py" is the main file for our backend server using "Dash" python framework. The server starts by rendering the Home Page on http://localhost:5000/.
+"index.py" is the main file for our backend server using "Dash" python framework. The server starts by rendering the Home Page on http://127.0.0.1:8050/.
 
 
 ### Visualization
