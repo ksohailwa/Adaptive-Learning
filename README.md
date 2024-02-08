@@ -12,7 +12,9 @@
       - personal evaluation of effectiveness of learning platforms based on different selectable user attributes
       - distribution of user (in percent) based on different selectable user attributes
 
-This project was submitted for the Learning Analytics course at the <a href="https://www.uni-due.de/en/index.php">University of Duisburg-Essen</a>.
+This project was submitted by the Data Detectives group for the Learning Analytics course at the <a href="https://www.uni-due.de/en/index.php">University of Duisburg-Essen</a>.
+
+<img src="assets/data_detectives.png" width="100"> <img src="assets/ude_logo.png" width="100">
 
 
 ### Dataset Description
