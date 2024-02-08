@@ -24,12 +24,12 @@ You can access and participate in the survey by clicking this <a href="https://d
 
 ### Implementation Technologies
 
- * Frontend
+**Frontend**
   + Website
     + Dash
   + Visualization
     + Plotly
- * Backend
+**Backend**
   + Web Server
     + Python
     + Dash
