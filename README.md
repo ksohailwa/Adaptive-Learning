@@ -14,7 +14,7 @@
 
 This project was submitted by the Data Detectives group for the Learning Analytics course at the <a href="https://www.uni-due.de/en/index.php">University of Duisburg-Essen</a>.
 
-<img src="assets/data_detectives.png" width="100"> <img src="assets/ude_logo.png">
+<img src="assets/data_detectives.png" width="100"> <img src="assets/ude_logo.png" width="150">
 
 
 ### Dataset Description
