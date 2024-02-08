@@ -71,7 +71,7 @@ You can access and participate in the survey by clicking this <a href="https://d
 
 ### Visualization
 
-All visualizations were built using Plotly
+All visualizations were built using <a href="https://plotly.com/">Plotly</a>.
 
 
 ### Deployment
