@@ -133,7 +133,7 @@ layout = html.Div(
                                 dmc.Stack(
                                     children=[
                                         dmc.Select(
-                                            id='column_name',
+                                            id='column_name1',
                                             label='Select Column To Investigate (Categorical)',
                                             style={'width': '50%', 'margin': 'auto'},
                                             data=[
@@ -254,11 +254,11 @@ def update_graph(value):
 ##########################################################
 
 @app.callback(Output('compare_graph1', 'figure'),
-              Input('column_name', 'value'))
+              Input('column_name1', 'value'))
 def update_graph(value):
 
     triggered_id = [p['prop_id'] for p in callback_context.triggered][0]
-    is_age_dropdown = 'column_name' in triggered_id and callback_context.inputs_list[0]['value'] == 'age'
+    is_age_dropdown = 'column_name1' in triggered_id and callback_context.inputs_list[0]['value'] == 'age'
 
     if is_age_dropdown:
         value_counts = df[['effectiveness', 'AgeRange']].groupby(['effectiveness', 'AgeRange']).size().to_frame().reset_index()
