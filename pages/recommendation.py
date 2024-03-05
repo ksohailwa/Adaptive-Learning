@@ -11,6 +11,7 @@ import urllib.parse
 from sqlalchemy import create_engine
 from sqlalchemy import text
 
+from backend import retrieve_data
 
 
 def create_dropdown(id, label, options_list):
@@ -27,26 +28,19 @@ def create_dropdown(id, label, options_list):
     ])
     
 
-# Load dataset from Azure SQL DB
-params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
-conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
-engine_azure = create_engine(conn_str,echo=True)
-
-connection = engine_azure.connect()
-print("Connection successful !!!!")
 
 # Perform a query to fetch effectivness
+
 query = text(
     "SELECT * "
     "FROM import_survey;"
 )
 
-result = connection.execute(query)
+df = retrieve_data(query)
 
-# Fetch all the rows and convert them to a Pandas DataFrame
-df = pd.DataFrame(result.fetchall(), columns=result.keys())
 
-print("!!! df retrieved values:", df)
+
+
 layout = html.Div(
     children=[
         dmc.Title(children = 'Recommending a Personalized Education System', order = 3, style = {'font-family':'IntegralCF-ExtraBold', 'text-align':'center', 'color' :'slategray'}),
@@ -183,6 +177,10 @@ def insert_into_database(n_clicks,age, gender, study_field, edu_level, employmen
             'Relying_on_Recommendation_Paths': [relying_recomm_path]
         })
 
+        #Get engine_azure
+        params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+        conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
+        engine_azure = create_engine(conn_str, echo=True)
 
     # Insert the DataFrame into the SQL database table 'import_extra'
         user_data.to_sql('user_input_data', con=engine_azure, index=False, if_exists='append')

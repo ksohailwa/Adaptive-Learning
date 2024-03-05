@@ -9,26 +9,21 @@ from sqlalchemy import text
 from dash import callback_context
 from app import app
 
-params = urllib.parse.quote_plus(r'Driver={ODBC Driver 18 for SQL Server};Server=tcp:adaptive-learning-server.database.windows.net,1433;Database=adaptive_learning_db;Uid=superadmin;Pwd=Poorpassword@2024;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
-conn_str = 'mssql+pyodbc:///?odbc_connect={}'.format(params)
-engine_azure = create_engine(conn_str, echo=True)
+from backend import retrieve_data
 
-connection = engine_azure.connect()
-print("Connection successful !!!!")
 
 
 # Perform a query to fetch table names
+
 table_query = text(
     "SELECT * "
     "FROM main_data_web; "
 )
-result = connection.execute(table_query)
 
-# Fetch all the rows and convert them to a Pandas DataFrame
-df = pd.DataFrame(result.fetchall(), columns=result.keys())
-# Fetch the results
+df = retrieve_data(table_query)
 
-print("!!! df retrieved values:", df)
+
+
 
 ############################
 layout = html.Div(
