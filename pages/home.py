@@ -2,10 +2,7 @@ from app import app
 import dash
 import dash_html_components as html
 
-# Initialize the Dash app
 app = dash.Dash(__name__)
-
-# Define your layout with improved styling
 layout = html.Div(
     children=[
         html.Header(
@@ -33,9 +30,8 @@ layout = html.Div(
             style={'text-align': 'center'}
         )
     ],
-    style={'max-width': '800px', 'margin': 'auto'}  # Center the content and limit its width
+    style={'max-width': '800px', 'margin': 'auto'}  
 )
 
-# Run the app
 if __name__ == '__main__':
     app.run_server(debug=True)

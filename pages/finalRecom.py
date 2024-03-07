@@ -5,13 +5,9 @@ import dash_html_components as html
 import pandas as pd
 import urllib.parse
 from caserec.recommenders.item_recommendation.itemknn import ItemKNN
-
 from sqlalchemy import create_engine, text
 import dash_bootstrap_components as dbc
-import random
 from sklearn.metrics.pairwise import cosine_similarity
-
-
 from backend import retrieve_data
 from machinelearning import get_cluster_members, get_similar_users_ratings, get_rating_diff_from_one, get_best_item_id, get_best_material_name
 
@@ -51,12 +47,6 @@ user_item_matrix = merged_df.pivot_table(index='user_id', columns='item_id', val
 
 demographic_data = students_df[features_for_clustering].drop_duplicates().set_index('id')
 
-
-
-#new_user_query = text(
-#    "SELECT id, age, gender, study_field, education_level, employment, study_place "
-#    "FROM import_student;"
-#)
 
 # Perform a query to fetch effectivness
 new_user_query = text(
@@ -113,27 +103,10 @@ best_item_id = get_best_item_id(rating_diff_from_one)
 
 best_material_name = get_best_material_name(best_item_id)
 
-
-
-
 layout = html.Div([
     html.H2("Here is your recommendation:", style={'textAlign': 'center', 'fontSize': '1.5em'}),
-    html.H3("Based on your responses, our recommendation for you is:", style={'textAlign': 'center'}), 
-    
-    html.H4("merged_df :" + str(merged_df.loc[0]), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4("merged_df :" + str(merged_df.loc[1]), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4("merged_df :" + str(merged_df.loc[2]), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4("merged_df :" + str(merged_df.loc[6]), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4("similar_users_ratings :" + str(similar_users_ratings), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4("new_user_demographics :" + str( new_user_demographics ), style={'textAlign': 'center', 'color': 'red'}),
-    html.H4(id = "aa", style={'textAlign': 'center', 'color': 'red'}),
-    html.H4(id = "update_user", style={'textAlign': 'center', 'color': 'red'}),
-
-    html.H4(str(rating_diff_from_one), style={'textAlign': 'center', 'color': 'red'}),
-    
-    html.H4(best_material_name, style={'textAlign': 'center', 'color': 'red'}),
-    
-    
+    html.H3("Based on your responses, our recommendation for you is:", style={'textAlign': 'center'}),   
+    html.H4(best_material_name, style={'textAlign': 'center', 'color': 'red'}),   
     html.Div(" ", style={'marginTop': '20px'}),
     html.Div(style={'textAlign': 'center'}, children=[
         html.Div("Give us a thumbs up if you find it helpful or not?", style={'marginTop': '20px'}),
@@ -154,14 +127,24 @@ layout = html.Div([
     Input('show-secret1', 'n_clicks')
 )
 def update_output(clicks1, clicks2):
-    if clicks1 or clicks2:       
-        # user_id = new_user_query.New_user_id
-        # liked = 0
-        # user_data = pd.DataFrame({
-            # 'New_user_id': [user_id],
-           #  'Feedback': [liked]})
-        # user_data.to_sql('Feedback', con=engine_azure, index=False, if_exists='append')
+    if clicks1 :       
+        user_id = str(new_user_df.loc[0].New_user_id)
+        liked = 1
+        user_data = pd.DataFrame({
+             'New_user_id': [user_id],
+            'Feedback': [liked]})
+        user_data.to_sql('Feedback', con=engine_azure, index=False, if_exists='append')
         return "Thank you for your feedback!"
+    if clicks2:       
+        user_id = str(new_user_df.loc[0].New_user_id)
+        liked = 0
+        user_data = pd.DataFrame({
+             'New_user_id': [user_id],
+            'Feedback': [liked]})
+        user_data.to_sql('Feedback', con=engine_azure, index=False, if_exists='append')
+        return "Thank you for your feedback!"
+    else:
+        return ""
 
 if __name__ == '__main__':
     app.run(debug=True)

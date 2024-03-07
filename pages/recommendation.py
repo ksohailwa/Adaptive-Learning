@@ -10,7 +10,6 @@ from dash_core_components import Dropdown
 import urllib.parse
 from sqlalchemy import create_engine
 from sqlalchemy import text
-
 from backend import retrieve_data
 
 
