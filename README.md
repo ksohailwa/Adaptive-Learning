@@ -1,5 +1,4 @@
 
-
 ### Adaptive Learning
 <img src="assets/ibm_logo.png" width="100">
 
@@ -108,9 +107,6 @@ pip install -r requirements.txt
 
  - Write "python index.py" in the terminal
  - Access http://127.0.0.1:8050/ on your browser
-
-
-
 
 
 
