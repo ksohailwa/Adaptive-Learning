@@ -14,7 +14,6 @@
 
 This project was submitted by the Data Detectives group for the Learning Analytics course at the <a href="https://www.uni-due.de/en/index.php">University of Duisburg-Essen</a>.
 
-<img src="assets/data_detectives.png" width="100"> <img src="assets/ude_logo.png" width="200">
 
 
 ### Dataset Description
@@ -60,7 +59,6 @@ You can access and participate in the survey by clicking this <a href="https://d
     + Algorithm: ItemKNN
     + Needed Libraries: caserec, pandas
 
-<img src="assets/machine_learning_concept.png">
 
   
 
